@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ved Borade | Robotics & Data Science</title>
+    <title>Ved Borade | Computer Science & Data Science</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Font (Inter) -->
@@ -11,16 +11,61 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #0a0a0c;
+            background: radial-gradient(circle at center, #0a1128 0%, #050508 100%);
+            background-attachment: fixed;
+            overflow-x: hidden;
+            color: #e2e8f0;
         }
 
+        /* --- INFINITE BADGE TICKER --- */
+        .ticker-container {
+            width: 100%;
+            overflow: hidden;
+            padding: 15px 0;
+            mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+        }
+
+        .ticker-wrapper {
+            display: flex;
+            width: max-content;
+            animation: tickerScroll 40s linear infinite;
+        }
+
+        .badge-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 1.25rem;
+            margin: 0 0.75rem;
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #94a3b8;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            white-space: nowrap;
+        }
+
+        .badge-item span { width: 5px; height: 5px; border-radius: 50%; }
+
+        @keyframes tickerScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* --- CARDS & UI --- */
         .project-card {
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: rgba(10, 15, 30, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
         .project-card:hover {
             transform: translateY(-8px);
             border-color: #06b6d4;
-            box-shadow: 0 10px 30px -10px rgba(6, 182, 212, 0.2);
+            box-shadow: 0 10px 40px -10px rgba(6, 182, 212, 0.3);
         }
 
         .video-responsive {
@@ -30,13 +75,7 @@
             height: 0;
             border-radius: 0.75rem 0.75rem 0 0;
         }
-        .video-responsive iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
+        .video-responsive iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 
         .text-gradient {
             background: linear-gradient(to right, #22d3ee, #a855f7);
@@ -44,42 +83,73 @@
             -webkit-text-fill-color: transparent;
         }
 
-        #project-archive {
-            display: none;
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
-        }
-        #project-archive.show {
-            display: grid;
-            opacity: 1;
-        }
+        #project-archive { display: none; opacity: 0; transition: opacity 0.5s ease-in-out; }
+        #project-archive.show { display: grid; opacity: 1; }
 
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0a0a0c; }
+        ::-webkit-scrollbar-track { background: #050508; }
         ::-webkit-scrollbar-thumb { background: #1f2937; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #374151; }
+
+        /* --- CONTACT SECTION --- */
+        .standard-bg { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(5px); }
+
+        .fun-bg-active {
+            background: linear-gradient(-45deg, #083344, #1e1b4b, #4c1d95, #1e1b4b, #083344) !important;
+            background-size: 400% 400% !important;
+            animation: gradientShift 8s ease infinite !important;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        #game-container {
+            width: 100%; height: 500px; position: relative;
+            background: rgba(0, 0, 0, 0.5); border-radius: 2rem; overflow: hidden;
+            display: none; backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .bouncing-link {
+            width: 75px; height: 75px; border-radius: 50%; position: absolute;
+            display: flex; align-items: center; justify-content: center;
+            transition: transform 0.2s ease; z-index: 30; padding: 18px;
+        }
+
+        .bouncing-link:hover { transform: scale(1.25); filter: brightness(1.5); }
+        .bouncing-link svg { fill: white; width: 100%; height: 100%; }
+
+        .switch { position: relative; display: inline-block; width: 64px; height: 34px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #1f2937; transition: .4s; border-radius: 34px;
+        }
+        .slider:before {
+            position: absolute; content: ""; height: 26px; width: 26px;
+            left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%;
+        }
+        input:checked + .slider { background-color: #06b6d4; }
+        input:checked + .slider:before { transform: translateX(30px); }
+
+        .hidden-mode { display: none !important; }
 
         .tech-pill {
-            font-size: 0.65rem;
-            font-weight: 800;
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.375rem;
-            text-transform: uppercase;
-            letter-spacing: 0.025em;
+            font-size: 0.65rem; font-weight: 800; padding: 0.25rem 0.5rem; border-radius: 0.375rem; text-transform: uppercase; letter-spacing: 0.025em;
         }
     </style>
 </head>
-<body class="bg-[#0a0a0c] text-gray-200">
+<body class="bg-[#050508] text-gray-200">
 
-    <!-- Sticky Navigation -->
-    <header class="sticky top-0 z-50 bg-[#0a0a0c]/80 backdrop-blur-xl border-b border-white/5">
+    <header class="sticky top-0 z-50 bg-[#050508]/80 backdrop-blur-xl border-b border-white/5">
         <nav class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="text-xl font-black text-white tracking-tighter hover:text-cyan-400 transition-colors uppercase">VED.BORADE</a>
+            <a href="#" class="text-xl font-black text-white tracking-tighter hover:text-cyan-400 transition-colors uppercase">VED BORADE</a>
             <div class="hidden md:flex space-x-8 text-xs font-bold uppercase tracking-widest items-center">
-                <a href="#experience" class="text-gray-400 hover:text-white transition-colors">Experience</a>
+                <a href="#experience" class="text-gray-400 hover:text-white transition-colors">Journey</a>
                 <a href="#projects" class="text-gray-400 hover:text-white transition-colors">Projects</a>
-                <a href="#skills" class="text-gray-400 hover:text-white transition-colors">Stack</a>
-                <a href="resume.pdf" target="_blank" class="bg-white/5 border border-white/10 px-4 py-2 rounded-lg text-cyan-400 hover:bg-cyan-500/10 transition-all font-black">Resume</a>
+                <a href="#awards" class="text-gray-400 hover:text-white transition-colors">Distinctions</a>
+                <a href="Resume.pdf" target="_blank" class="bg-white/5 border border-white/10 px-4 py-2 rounded-lg text-cyan-400 hover:bg-cyan-500/10 transition-all font-black">Resume</a>
             </div>
             <a href="#contact" class="bg-cyan-600 text-white px-4 py-2 rounded-lg font-black text-[10px] uppercase tracking-widest hover:bg-cyan-500 transition-all">Connect</a>
         </nav>
@@ -88,376 +158,524 @@
     <main class="max-w-6xl mx-auto px-6 py-16">
 
         <!-- Hero Section -->
-        <section class="min-h-[75vh] flex flex-col justify-center items-center text-center mb-32 pt-10">
-            <div class="flex flex-wrap justify-center gap-3 mb-8">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-[10px] font-bold uppercase tracking-widest animate-pulse">
-                    <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
-                    Rutgers Honors College
+        <section class="min-h-[70vh] flex flex-col justify-center items-center text-center mb-32 pt-10">
+            
+            <!-- Dynamic Badge Ticker -->
+            <div class="ticker-container mb-12">
+                <div class="ticker-wrapper" id="ticker-content">
+                    <!-- Badges injected via JS -->
                 </div>
-                <a href="Ved Borade.pdf" target="_blank" class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-[10px] font-bold uppercase tracking-widest hover:bg-purple-500/20 transition-all">
-                    <span class="w-2 h-2 rounded-full bg-purple-400"></span>
-                    CodePath Advanced Scholar
-                </a>
             </div>
             
             <h1 class="text-6xl md:text-9xl font-black text-white mb-6 tracking-tighter leading-[0.9]">
                 VED <br> <span class="text-gradient">BORADE</span>
             </h1>
             <p class="text-xl md:text-2xl text-gray-400 mb-10 font-medium max-w-2xl leading-relaxed">
-                Computer Science & Data Science. <br>
-                Building <span class="text-white">Intelligent Systems</span> and high-performance <span class="text-white">Robotic Hardware</span>.
+                Computer Science & Data Science @ Rutgers Honors College
             </p>
             <div class="flex flex-wrap justify-center gap-4">
                 <a href="#projects" class="bg-cyan-600 text-white font-black text-xs uppercase tracking-widest px-10 py-4 rounded-xl hover:bg-cyan-500 transition-all shadow-lg shadow-cyan-900/20">
-                    Explore Work
+                    Explore Projects
                 </a>
-                <a href="Resume.pdf" target="_blank" class="bg-white/5 border border-white/10 text-white font-black text-xs uppercase tracking-widest px-10 py-4 rounded-xl hover:bg-white/10 transition-all font-black">
+                <a href="Resume.pdf" target="_blank" class="bg-white/5 border border-white/10 text-white font-black text-xs uppercase tracking-widest px-10 py-4 rounded-xl hover:bg-white/10 transition-all">
                     View Resume
                 </a>
             </div>
-            
-            <div class="flex justify-center space-x-8 mt-12">
-                <a href="https://www.linkedin.com/in/vedb" target="_blank" class="text-gray-500 hover:text-cyan-400 transition-colors">
-                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-                </a>
-                <a href="https://github.com/vedbo" target="_blank" class="text-gray-500 hover:text-cyan-400 transition-colors">
-                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.042-1.416-4.042-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                </a>
-            </div>
         </section>
 
-        <!-- Professional Experience Section -->
+        <!-- My Journey Section -->
         <section id="experience" class="mb-40">
-            <h2 class="text-3xl font-black text-white mb-16 tracking-tighter uppercase border-l-4 border-cyan-500 pl-6">The Journey</h2>
-            <div class="space-y-12">
+            <h2 class="text-3xl font-black text-white mb-16 tracking-tighter uppercase border-l-4 border-cyan-500 pl-6">My Journey</h2>
+            <div class="space-y-20">
+                
                 <!-- Aresty -->
-                <div class="relative pl-8 border-l border-white/10 pb-8">
+                <div class="relative pl-8 border-l border-white/10">
                     <div class="absolute -left-[5px] top-0 w-[9px] h-[9px] bg-cyan-500 rounded-full"></div>
-                    <div class="flex flex-col md:flex-row md:justify-between items-baseline mb-2">
-                        <h3 class="text-xl font-bold text-white uppercase tracking-tight">Aresty Research Assistant @ Rutgers PRACSYS Lab</h3>
-                        <span class="text-sm font-bold text-cyan-400 font-mono tracking-tighter uppercase">Aug 2025 – Present</span>
+                    <div class="mb-4">
+                        <h3 class="text-2xl font-black text-white uppercase tracking-tight mb-1">Aresty Research Assistant</h3>
+                        <div class="flex flex-wrap items-center gap-3 text-sm font-bold uppercase tracking-widest">
+                            <span class="text-cyan-400">Rutgers PRACSYS Lab</span>
+                            <span class="text-gray-600">•</span>
+                            <span class="text-gray-400 font-mono">Aug 2025 – Present</span>
+                        </div>
                     </div>
-                    <p class="text-gray-400 text-sm leading-relaxed max-w-4xl">
-                        Developing ILP and Gurobi algorithms for UR5 robotic platforms. Architecting 3D data pipelines to map retail datasets into simulation for visibility optimization, collaborating with PhD researchers on Reinforcement Learning (RL) baselines.
-                    </p>
+                    <ul class="space-y-4 text-gray-400 text-sm font-light list-disc ml-4 max-w-5xl leading-relaxed">
+                        <li>Developing Integer Linear Programming (ILP) and Gurobi algorithms for shelf placement on the UR5 robotic platform.</li>
+                        <li>Engineering a 3D data pipeline to map retail datasets into simulation instances to maximize label visibility.</li>
+                        <li>Applying Python/Plotly for performance evaluation and collaborating with PhD researchers to present visibility benchmarks and Reinforcement Learning (RL) baselines in weekly technical meetings.</li>
+                    </ul>
                 </div>
 
-                <!-- Apple -->
-                <div class="relative pl-8 border-l border-white/10 pb-8">
+                <!-- Apple Specialist -->
+                <div class="relative pl-8 border-l border-white/10">
                     <div class="absolute -left-[5px] top-0 w-[9px] h-[9px] bg-gray-500 rounded-full"></div>
-                    <div class="flex flex-col md:flex-row md:justify-between items-baseline mb-2">
-                        <h3 class="text-xl font-bold text-white uppercase tracking-tight">Specialist @ Apple Inc.</h3>
-                        <span class="text-sm font-bold text-gray-400 font-mono tracking-tighter uppercase">Jul 2025 – Oct 2025</span>
+                    <div class="mb-4">
+                        <h3 class="text-2xl font-black text-white uppercase tracking-tight mb-1">Apple Specialist</h3>
+                        <div class="flex flex-wrap items-center gap-3 text-sm font-bold uppercase tracking-widest">
+                            <span class="text-cyan-400">Apple Inc.</span>
+                            <span class="text-gray-600">•</span>
+                            <span class="text-gray-400">Freehold, NJ</span>
+                            <span class="text-gray-600">•</span>
+                            <span class="text-gray-400 font-mono">Jul 2025 – Oct 2025</span>
+                        </div>
                     </div>
-                    <p class="text-gray-400 text-sm leading-relaxed max-w-4xl">
-                        Generated over $100,000 in revenue through technical advisory on M-series chip architecture and ecosystem integration. Performed rapid hardware/software diagnostics for Genius Bar appointments.
-                    </p>
+                    <ul class="space-y-4 text-gray-400 text-sm font-light list-disc ml-4 max-w-5xl leading-relaxed">
+                        <li>Generated over $100,000 in revenue by providing tailored product solutions and technical guidance to customers.</li>
+                        <li>Diagnosed software/hardware issues and performed pre-appointment troubleshooting for Genius Bar appointments.</li>
+                    </ul>
                 </div>
 
                 <!-- MIT -->
-                <div class="relative pl-8 border-l border-white/10 pb-8">
+                <div class="relative pl-8 border-l border-white/10">
                     <div class="absolute -left-[5px] top-0 w-[9px] h-[9px] bg-purple-500 rounded-full"></div>
-                    <div class="flex flex-col md:flex-row md:justify-between items-baseline mb-2">
-                        <h3 class="text-xl font-bold text-white uppercase tracking-tight">BWSI ASIC Design Scholar @ MIT Lincoln Laboratory</h3>
-                        <span class="text-sm font-bold text-purple-400 font-mono tracking-tighter uppercase">Jul 2023 – Dec 2023</span>
+                    <div class="mb-4">
+                        <h3 class="text-2xl font-black text-white uppercase tracking-tight mb-1">BWSI ASIC Design Scholar</h3>
+                        <div class="flex flex-wrap items-center gap-3 text-sm font-bold uppercase tracking-widest">
+                            <span class="text-purple-400">MIT Lincoln Laboratory</span>
+                            <span class="text-gray-600">•</span>
+                            <span class="text-gray-400 font-mono">Jul 2023 – Dec 2023</span>
+                        </div>
                     </div>
-                    <p class="text-gray-400 text-sm leading-relaxed max-w-4xl">
-                        Engineered environmental sensing ASICs using the Chipyard framework (RTL-to-GDSII flow). Served as TA managing VLSI design curriculum for 20+ scholars.
-                    </p>
+                    <ul class="space-y-4 text-gray-400 text-sm font-light list-disc ml-4 max-w-5xl leading-relaxed">
+                        <li>Designed an ASIC chip for air quality monitoring using Chipyard and mentored as a Teaching Assistant during Fall.</li>
+                        <li>Developed and pitched a $10,000 funding proposal to a panel of industry experts from SOFWERX.</li>
+                    </ul>
                 </div>
 
                 <!-- Jetson -->
-                <div class="relative pl-8 border-l border-white/10 pb-8">
+                <div class="relative pl-8 border-l border-white/10">
                     <div class="absolute -left-[5px] top-0 w-[9px] h-[9px] bg-blue-500 rounded-full"></div>
-                    <div class="flex flex-col md:flex-row md:justify-between items-baseline mb-2">
-                        <h3 class="text-xl font-bold text-white uppercase tracking-tight">Product Intern @ Jetson</h3>
-                        <span class="text-sm font-bold text-blue-400 font-mono tracking-tighter uppercase">Jun 2023 – Aug 2023</span>
+                    <div class="mb-4">
+                        <h3 class="text-2xl font-black text-white uppercase tracking-tight mb-1">Product Intern</h3>
+                        <div class="flex flex-wrap items-center gap-3 text-sm font-bold uppercase tracking-widest">
+                            <span class="text-blue-400">Jetson</span>
+                            <span class="text-gray-600">•</span>
+                            <span class="text-gray-400 font-mono">Jun 2023 – Aug 2023</span>
+                        </div>
                     </div>
-                    <p class="text-gray-400 text-sm leading-relaxed max-w-4xl">
-                        Spearheaded QA testing for beta features ensuring 100% production stability. Prototyped high-fidelity UI wireframes in Swift/Xcode, increasing daily engagement by 5% and day-one retention by 9%.
-                    </p>
+                    <ul class="space-y-4 text-gray-400 text-sm font-light list-disc ml-4 max-w-5xl leading-relaxed">
+                        <li>QA tested beta features achieving 0 production bugs and prototyped wireframes in Figma and Swift.</li>
+                        <li>Contributed to features increasing daily engagement by 5% and day-one retention by 9%.</li>
+                    </ul>
                 </div>
 
-                <!-- NYU -->
+                <!-- NYU Tandon -->
                 <div class="relative pl-8 border-l border-white/10">
                     <div class="absolute -left-[5px] top-0 w-[9px] h-[9px] bg-red-500 rounded-full"></div>
-                    <div class="flex flex-col md:flex-row md:justify-between items-baseline mb-2">
-                        <h3 class="text-xl font-bold text-white uppercase tracking-tight">Cyber Security Scholar @ NYU Tandon</h3>
-                        <span class="text-sm font-bold text-red-400 font-mono tracking-tighter uppercase">Jul 2022 – Aug 2022</span>
+                    <div class="mb-4">
+                        <h3 class="text-2xl font-black text-white uppercase tracking-tight mb-1">Cyber Security Scholar</h3>
+                        <div class="flex flex-wrap items-center gap-3 text-sm font-bold uppercase tracking-widest">
+                            <span class="text-red-400">NYU Tandon School of Engineering</span>
+                            <span class="text-gray-600">•</span>
+                            <span class="text-gray-400">Brooklyn, NY</span>
+                            <span class="text-gray-600">•</span>
+                            <span class="text-gray-400 font-mono">Jul 2022 – Aug 2022</span>
+                        </div>
                     </div>
-                    <p class="text-gray-400 text-sm leading-relaxed max-w-4xl">
-                        Engineered Python scripts for network traffic analysis to identify anomalous system behaviors. Conducted static and dynamic malware analysis to develop detection signatures.
-                    </p>
+                    <ul class="space-y-4 text-gray-400 text-sm font-light list-disc ml-4 max-w-5xl leading-relaxed">
+                        <li>Utilized custom Python scripts to perform network analysis, identifying security threats and anomalies in systems.</li>
+                        <li>Reverse-engineered malware samples to understand behaviors and develop detection methods.</li>
+                    </ul>
+                </div>
+
+                <!-- Leadership Row -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mt-20 pt-10 border-t border-white/5">
+                    <div>
+                        <h4 class="text-cyan-400 font-black text-[10px] uppercase tracking-widest mb-4">Executive Board</h4>
+                        <h3 class="text-white font-bold mb-2">ROCC (Rutgers Cloud)</h3>
+                        <p class="text-xs text-gray-500 leading-relaxed font-light">Spearheading cloud curriculum development to upskill members in AWS and Azure architecture, facilitating hands-on labs and certifications.</p>
+                    </div>
+                    <div>
+                        <h4 class="text-purple-400 font-black text-[10px] uppercase tracking-widest mb-4">Leadership Scholar</h4>
+                        <h3 class="text-white font-bold mb-2">Road to Silicon V/Alley</h3>
+                        <p class="text-xs text-gray-500 leading-relaxed font-light">Highly selective innovation program at Rutgers Business School. Selected into Cohort 7 to develop intrapreneurship and business strategy through a multidisciplinary think-tank model and C-Suite mentorship.</p>
+                    </div>
+                    <div>
+                        <h4 class="text-yellow-400 font-black text-[10px] uppercase tracking-widest mb-4">President (Alum)</h4>
+                        <h3 class="text-white font-bold mb-2">National CS Honor Society</h3>
+                        <p class="text-xs text-gray-500 leading-relaxed font-light">Coached lessons in engineering and circuitry for 50+ students. Designed a 4ft Santa animatronic display using Arduino and custom robotics.</p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- Distinctions Section -->
+        <!-- Distinctions & Certifications -->
         <section id="awards" class="mb-40">
-            <h2 class="text-3xl font-black text-white mb-12 tracking-tighter uppercase border-l-4 border-yellow-500 pl-6">Distinctions</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <a href="Ved Borade.pdf" target="_blank" class="bg-white/5 p-8 rounded-2xl border border-white/10 hover:border-purple-500/40 transition-all group">
-                    <div class="flex justify-between items-start mb-4">
-                        <h3 class="text-lg font-bold text-white uppercase tracking-tight group-hover:text-purple-400 transition-colors">CodePath Technical Interview Prep (Advanced)</h3>
-                        <span class="text-[8px] font-black bg-purple-500 text-white px-2 py-1 rounded tracking-tighter uppercase">OUTSTANDING PERFORMANCE</span>
+            <h2 class="text-3xl font-black text-white mb-12 tracking-tighter uppercase border-l-4 border-yellow-500 pl-6">Distinctions & Certifications</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <a href="NasaMentor.pdf" target="_blank" class="bg-white/5 p-8 rounded-2xl border border-white/10 hover:border-blue-500/40 transition-all group flex flex-col justify-between text-left">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-xs font-bold text-white uppercase tracking-widest group-hover:text-blue-400">NASA Space Apps Mentor</h3>
+                            <span class="text-[7px] font-black bg-blue-500 text-white px-2 py-1 rounded tracking-tighter uppercase">GLOBAL IMPACT</span>
+                        </div>
+                        <p class="text-gray-400 text-[11px] leading-relaxed">Advised participants in the world's largest global hackathon.</p>
                     </div>
-                    <p class="text-gray-400 text-sm leading-relaxed">Recognized for top-tier algorithmic problem solving in the Advanced track (TIP102). Click to view certification.</p>
+                    <p class="text-gray-500 text-[9px] mt-4 font-bold uppercase group-hover:text-blue-400">Credential &rarr;</p>
                 </a>
-                <div class="bg-white/5 p-8 rounded-2xl border border-white/10 hover:border-cyan-500/40 transition-all group">
-                    <div class="flex justify-between items-start mb-4">
-                        <h3 class="text-lg font-bold text-white uppercase tracking-tight">5x Hackathon Winner</h3>
-                        <span class="text-[8px] font-black bg-cyan-500 text-black px-2 py-1 rounded tracking-tighter uppercase">COMPETITIVE</span>
+                <a href="https://devpost.com/vedmborade" target="_blank" class="bg-white/5 p-8 rounded-2xl border border-white/10 hover:border-cyan-500/40 transition-all group flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-xs font-bold text-white uppercase tracking-widest group-hover:text-cyan-400">5x Hackathon Winner</h3>
+                            <span class="text-[7px] font-black bg-cyan-500 text-black px-2 py-1 rounded tracking-tighter uppercase">COMPETITIVE</span>
+                        </div>
+                        <p class="text-gray-400 text-[11px] leading-relaxed">Winner across 5 regional and university software-hardware challenges.</p>
                     </div>
-                    <p class="text-gray-400 text-sm leading-relaxed">Awarded 1st place in five regional hackathons for rapid software-hardware prototyping and innovative design.</p>
-                </div>
+                    <p class="text-gray-500 text-[9px] mt-4 font-bold uppercase group-hover:text-cyan-400">Devpost Profile &rarr;</p>
+                </a>
+                <a href="CodePath.pdf" target="_blank" class="bg-white/5 p-8 rounded-2xl border border-white/10 hover:border-purple-500/40 transition-all group flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-xs font-bold text-white uppercase tracking-widest group-hover:text-purple-400">CodePath Advanced Scholar</h3>
+                            <span class="text-[7px] font-black bg-purple-500 text-white px-2 py-1 rounded tracking-tighter uppercase">OUTSTANDING</span>
+                        </div>
+                        <p class="text-gray-400 text-[11px] leading-relaxed">Technical Interview Prep recognition (TIP102).</p>
+                    </div>
+                    <p class="text-gray-500 text-[9px] mt-4 font-bold uppercase group-hover:text-purple-400">Summer 2025 &rarr;</p>
+                </a>
+                <a href="APScholar.pdf" target="_blank" class="bg-white/5 p-8 rounded-2xl border border-white/10 hover:border-yellow-500/40 transition-all group flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-xs font-bold text-white uppercase tracking-widest group-hover:text-yellow-400">AP Scholar w/ Distinction</h3>
+                            <span class="text-[7px] font-black bg-yellow-500 text-black px-2 py-1 rounded tracking-tighter uppercase">COLLEGE BOARD</span>
+                        </div>
+                        <p class="text-gray-400 text-[11px] leading-relaxed">Recognition for top-tier scores across multiple Advanced Placement exams.</p>
+                    </div>
+                    <p class="text-gray-500 text-[9px] mt-4 font-bold uppercase group-hover:text-yellow-400">Certification &rarr;</p>
+                </a>
+                <a href="SAT.pdf" target="_blank" class="bg-white/5 p-8 rounded-2xl border border-white/10 hover:border-cyan-500/40 transition-all group flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-xs font-bold text-white uppercase tracking-widest group-hover:text-cyan-400">SAT Score</h3>
+                            <span class="text-[7px] font-black bg-cyan-500 text-black px-2 py-1 rounded tracking-tighter uppercase">99TH PERCENTILE</span>
+                        </div>
+                        <p class="text-gray-400 text-[11px] leading-relaxed">Achieved 99th percentile scores in reading and math.</p>
+                    </div>
+                    <p class="text-gray-500 text-[9px] mt-4 font-bold uppercase group-hover:text-cyan-400">View Results &rarr;</p>
+                </a>
+                <a href="deans_letter25.pdf" target="_blank" class="bg-white/5 p-8 rounded-2xl border border-white/10 hover:border-cyan-500/40 transition-all group flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-xs font-bold text-white uppercase tracking-widest group-hover:text-cyan-400">Dean's List</h3>
+                            <span class="text-[7px] font-black bg-cyan-600 text-white px-2 py-1 rounded tracking-tighter uppercase">RUTGERS</span>
+                        </div>
+                        <p class="text-gray-400 text-[11px] leading-relaxed">Honored for maintaining high academic standing at Rutgers University.</p>
+                    </div>
+                    <p class="text-gray-500 text-[9px] mt-4 font-bold uppercase group-hover:text-cyan-400">Verification &rarr;</p>
+                </a>
+                <a href="BWSI.pdf" target="_blank" class="bg-white/5 p-8 rounded-2xl border border-white/10 hover:border-purple-400/40 transition-all group flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-xs font-bold text-white uppercase tracking-widest group-hover:text-purple-400">BWSI ASIC Completion</h3>
+                            <span class="text-[7px] font-black bg-purple-500 text-white px-2 py-1 rounded tracking-tighter uppercase">MIT LINCOLN LAB</span>
+                        </div>
+                        <p class="text-gray-400 text-[11px] leading-relaxed">Successful completion of the Beaver Works ASIC Design program.</p>
+                    </div>
+                    <p class="text-gray-500 text-[9px] mt-4 font-bold uppercase group-hover:text-purple-400">Credential &rarr;</p>
+                </a>
+                <a href="https://www.credly.com/badges/b0fc4173-046d-44df-a784-64e67da5e121/linked_in_profile" target="_blank" class="bg-white/5 p-8 rounded-2xl border border-white/10 hover:border-blue-400/40 transition-all group flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-xs font-bold text-white uppercase tracking-widest group-hover:text-blue-400">Quantum Winter School</h3>
+                            <span class="text-[7px] font-black bg-blue-600 text-white px-2 py-1 rounded tracking-tighter uppercase">MICROSOFT</span>
+                        </div>
+                        <p class="text-gray-400 text-[11px] leading-relaxed">Quantum algorithms and mechanics using the Microsoft Q# language.</p>
+                    </div>
+                    <p class="text-gray-500 text-[9px] mt-4 font-bold uppercase group-hover:text-blue-400">Verified &rarr;</p>
+                </a>
             </div>
         </section>
 
-        <!-- Featured Projects Section -->
+        <!-- Featured Projects -->
         <section id="projects" class="mb-40">
             <h2 class="text-3xl font-black text-white mb-16 tracking-tighter uppercase border-l-4 border-purple-500 pl-6">Featured Projects</h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-16">
-
-                <!-- 1. Robotic Service Dog -->
-                <div class="project-card bg-gray-900 border border-white/5 rounded-2xl overflow-hidden flex flex-col h-full">
-                    <div class="video-responsive">
-                        <iframe src="https://www.youtube.com/embed/LyuvT-aBg3E" title="Robotic Service Dog" frameborder="0" allowfullscreen></iframe>
-                    </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <div class="project-card border rounded-2xl overflow-hidden flex flex-col h-full">
+                    <div class="video-responsive"><iframe src="https://www.youtube.com/embed/LyuvT-aBg3E" title="Robotic Service Dog" frameborder="0" allowfullscreen></iframe></div>
                     <div class="p-8 flex-grow">
                         <div class="flex justify-between items-start mb-4">
-                            <h3 class="text-xl font-bold text-white tracking-tight">Robotic Service Dog</h3>
+                            <h3 class="text-xl font-bold text-white tracking-tight uppercase tracking-tighter">Robotic Service Dog</h3>
                             <span class="text-[8px] font-black bg-yellow-400 text-black px-2 py-1 rounded tracking-tighter uppercase">GOLD MEDAL</span>
                         </div>
-                        <div class="flex gap-2 mb-4 flex-wrap">
-                            <span class="tech-pill bg-cyan-500/10 text-cyan-400">Arduino</span>
-                            <span class="tech-pill bg-cyan-500/10 text-cyan-400">C</span>
-                            <span class="tech-pill bg-cyan-500/10 text-cyan-400">Robotics</span>
+                        <div class="flex gap-2 mb-4 flex-wrap"><span class="tech-pill bg-cyan-500/10 text-cyan-400">Arduino</span><span class="tech-pill bg-cyan-500/10 text-cyan-400">C</span><span class="tech-pill bg-cyan-500/10 text-cyan-400">Embedded</span></div>
+                        <p class="text-gray-400 mb-4 text-xs leading-relaxed flex-grow font-light">Autonomous robot Dog with functional manipulation. Hudson County Gold Medalist 2023.</p>
+                        <div class="flex gap-3 mt-auto">
+                            <a href="https://devpost.com/software/navigate_e" target="_blank" class="flex-grow text-center bg-gray-800 text-white text-[10px] font-black py-3 rounded-xl hover:bg-cyan-600 transition-colors uppercase tracking-widest">Tech Details</a>
+                            <a href="https://www.youtube.com/watch?v=YenW5by_jaQ&t=480s" target="_blank" class="flex-grow text-center border border-white/10 text-white text-[10px] font-black py-3 rounded-xl hover:bg-white/5 transition-colors uppercase tracking-widest">Demo</a>
                         </div>
-                        <p class="text-gray-400 mb-6 text-xs leading-relaxed flex-grow">
-                            Autonomous service robot featuring PID control for stabilized manipulation and custom sensor-fusion for indoor navigation.
-                        </p>
-                        <a href="https://devpost.com/software/navigate_e" target="_blank" class="inline-block w-full text-center bg-gray-800 text-white text-[10px] font-black py-4 rounded-xl hover:bg-cyan-600 transition-colors uppercase tracking-widest">
-                            Case Study
-                        </a>
                     </div>
                 </div>
-
-                <!-- 2. Epi-Sense Wearable -->
-                <div class="project-card bg-gray-900 border border-white/5 rounded-2xl overflow-hidden flex flex-col h-full border-cyan-900/30">
-                    <div class="h-48 bg-cyan-950/20 flex items-center justify-center border-b border-white/5">
-                        <span class="text-cyan-500 font-black text-xs tracking-widest uppercase">Biometric IoT Engine</span>
-                    </div>
+                <div class="project-card border rounded-2xl overflow-hidden p-0 flex flex-col h-full border-cyan-900/30">
+                    <div class="video-responsive"><iframe src="https://www.youtube.com/embed/nRNcrBKIokg" title="SurgeVue AI" frameborder="0" allowfullscreen></iframe></div>
                     <div class="p-8 flex-grow">
                         <div class="flex justify-between items-start mb-4">
-                            <h3 class="text-xl font-bold text-white tracking-tight text-gradient">Epi-Sense Wearable</h3>
+                            <h3 class="text-xl font-bold text-white tracking-tight uppercase tracking-tighter">SurgeVue AI</h3>
                             <span class="text-[8px] font-black bg-cyan-400 text-black px-2 py-1 rounded tracking-tighter uppercase">WINNER</span>
                         </div>
-                        <div class="flex gap-2 mb-4 flex-wrap">
-                            <span class="tech-pill bg-purple-500/10 text-purple-400">ESP32</span>
-                            <span class="tech-pill bg-purple-500/10 text-purple-400">Swift</span>
-                            <span class="tech-pill bg-purple-500/10 text-purple-400">Firebase</span>
-                        </div>
-                        <p class="text-gray-400 mb-6 text-xs leading-relaxed flex-grow">
-                            Real-time seizure detection utilizing ESP32 and Swift alerts. Integrated with Firebase for instantaneous medical notifications.
-                        </p>
-                        <a href="https://devpost.com/software/epi-sense-the-epileptic-sensor" target="_blank" class="inline-block w-full text-center bg-gray-800 text-white text-[10px] font-black py-4 rounded-xl hover:bg-cyan-600 transition-colors uppercase tracking-widest">
-                            View Details
-                        </a>
+                        <div class="flex gap-2 mb-4 flex-wrap"><span class="tech-pill bg-blue-500/10 text-blue-400">ML</span><span class="tech-pill bg-blue-500/10 text-blue-400">Python</span><span class="tech-pill bg-blue-500/10 text-blue-400">Vision</span></div>
+                        <p class="text-gray-400 mb-8 text-xs leading-relaxed flex-grow font-light">AI assistant providing real-time procedural analysis for surgical teams.</p>
+                        <a href="https://github.com/jeet-dekivadia/SurgeVue" target="_blank" class="inline-block w-full text-center bg-gray-800 text-white text-[10px] font-black py-4 rounded-xl hover:bg-cyan-600 transition-colors uppercase tracking-widest">Project Link</a>
                     </div>
                 </div>
-
-                <!-- 3. SurgeVue AI -->
-                <div class="project-card bg-gray-900 border border-white/5 rounded-2xl overflow-hidden p-8 flex flex-col h-full border-cyan-900/30">
+                <div class="project-card border rounded-2xl overflow-hidden flex flex-col h-full border-purple-900/30">
+                    <div class="video-responsive"><iframe src="https://www.youtube.com/embed/EqpaVzvHZVU" title="Click to Professional" frameborder="0" allowfullscreen></iframe></div>
+                    <div class="p-8 flex-grow">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-xl font-bold text-white tracking-tight uppercase tracking-tighter">Click to Professional</h3>
+                            <span class="text-[8px] font-black bg-purple-500 text-white px-2 py-1 rounded tracking-tighter uppercase">AI ENGINE</span>
+                        </div>
+                        <div class="flex gap-2 mb-4 flex-wrap"><span class="tech-pill bg-purple-500/10 text-purple-400">Gemini AI</span><span class="tech-pill bg-purple-500/10 text-purple-400">HEIC</span><span class="tech-pill bg-purple-500/10 text-purple-400">JS</span></div>
+                        <p class="text-gray-400 mb-6 text-xs leading-relaxed flex-grow font-light">Browser-based application using Google Gemini AI for smart background replacement in casual photos.</p>
+                        <a href="https://youtu.be/EqpaVzvHZVU" target="_blank" class="inline-block w-full text-center bg-gray-800 text-white text-[10px] font-black py-4 rounded-xl hover:bg-cyan-600 transition-colors uppercase tracking-widest">Project Link</a>
+                    </div>
+                </div>
+                <div class="project-card border rounded-2xl overflow-hidden p-8 flex flex-col h-full border-cyan-900/30">
                     <div class="flex justify-between items-start mb-4">
-                        <h3 class="text-xl font-bold text-white tracking-tight uppercase tracking-tighter">SurgeVue AI</h3>
+                        <h3 class="text-xl font-bold text-white tracking-tight uppercase tracking-tighter">Epi-Sense Wearable</h3>
                         <span class="text-[8px] font-black bg-cyan-400 text-black px-2 py-1 rounded tracking-tighter uppercase">WINNER</span>
                     </div>
-                    <div class="flex gap-2 mb-4 flex-wrap">
-                        <span class="tech-pill bg-blue-500/10 text-blue-400">Machine Learning</span>
-                        <span class="tech-pill bg-blue-500/10 text-blue-400">Python</span>
-                        <span class="tech-pill bg-blue-500/10 text-blue-400">Vision</span>
-                    </div>
-                    <p class="text-gray-400 mb-8 text-xs leading-relaxed flex-grow">Multi-model AI assistant designed to support professional surgeons with real-time feedback and procedural analysis.</p>
-                    <a href="https://devpost.com/software/surgikalai" target="_blank" class="inline-block w-full text-center bg-gray-800 text-white text-[10px] font-black py-4 rounded-xl hover:bg-cyan-600 transition-colors uppercase tracking-widest">
-                        Technical Demo
-                    </a>
+                    <p class="text-gray-400 mb-6 text-xs leading-relaxed flex-grow font-light">Biometric wearable for real-time seizure detection with Firebase alerts.</p>
+                    <a href="https://devpost.com/software/epi-sense-the-epileptic-sensor" target="_blank" class="inline-block w-full text-center bg-gray-800 text-white text-[10px] font-black py-4 rounded-xl hover:bg-cyan-600 transition-colors uppercase tracking-widest">Project Link</a>
                 </div>
-
+                <div class="project-card border rounded-2xl overflow-hidden p-8 flex flex-col h-full border-purple-900/30">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-bold text-white tracking-tight uppercase tracking-tighter">GUMDROP</h3>
+                        <span class="text-[8px] font-black bg-purple-500 text-white px-2 py-1 rounded tracking-tighter uppercase">WINNER</span>
+                    </div>
+                    <p class="text-gray-400 mb-8 text-xs leading-relaxed flex-grow font-light">Smart vending solution for security in medical prescription distribution.</p>
+                    <a href="https://devpost.com/software/gumdrop" target="_blank" class="inline-block w-full text-center bg-gray-800 text-white text-[10px] font-black py-4 rounded-xl hover:bg-cyan-600 transition-colors uppercase tracking-widest">Project Link</a>
+                </div>
+                <div class="project-card border rounded-2xl overflow-hidden flex flex-col h-full border-cyan-900/30">
+                    <div class="video-responsive"><iframe src="https://www.youtube.com/embed/7TnSkqgWpa0" title="CerebrAI" frameborder="0" allowfullscreen></iframe></div>
+                    <div class="p-8 flex-grow">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-xl font-bold text-white tracking-tight uppercase tracking-tighter">CerebrAI</h3>
+                            <span class="text-[8px] font-black bg-cyan-400 text-black px-2 py-1 rounded tracking-tighter uppercase">WINNER</span>
+                        </div>
+                        <p class="text-gray-400 mb-8 text-xs leading-relaxed flex-grow font-light">Quantum Neural Network implementation for high-dimensional classification.</p>
+                        <a href="https://devpost.com/software/s-0ucrb4" target="_blank" class="inline-block w-full text-center bg-gray-800 text-white text-[10px] font-black py-4 rounded-xl hover:bg-cyan-600 transition-colors uppercase tracking-widest">Project Link</a>
+                    </div>
+                </div>
             </div>
 
-            <!-- ARCHIVE BUTTON -->
-            <div class="text-center mb-16">
-                <button id="show-archive-btn" onclick="toggleArchive()" class="bg-transparent border border-cyan-500/50 text-cyan-400 font-black text-xs uppercase tracking-[0.2em] px-12 py-5 rounded-2xl hover:bg-cyan-500/10 transition-all flex items-center gap-2 mx-auto">
+            <div class="text-center mt-12">
+                <button id="show-archive-btn" onclick="toggleArchive()" class="bg-transparent border border-white/10 text-white font-black text-[10px] uppercase tracking-[0.2em] px-12 py-5 rounded-2xl hover:bg-white/5 transition-all flex items-center gap-2 mx-auto">
                     <svg id="archive-icon" class="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                    <span id="archive-text">Show All Projects</span>
+                    <span id="archive-text">View Additional Projects</span>
                 </button>
             </div>
 
-            <!-- HIDDEN ARCHIVE GRID (Now with individual hardware cards) -->
-            <div id="project-archive" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                
-                <!-- NBA ML -->
-                <div class="project-card bg-gray-900 border border-white/5 rounded-2xl overflow-hidden flex flex-col h-full">
-                    <img src="https://placehold.co/600x400/111827/06b6d4?text=91.45%+Accuracy" alt="NBA ML Analysis" class="w-full h-48 object-cover opacity-50 grayscale hover:opacity-100 hover:grayscale-0 transition-all">
+            <!-- HIDDEN ARCHIVE GRID -->
+            <div id="project-archive" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-10">
+                <div class="project-card border rounded-2xl overflow-hidden flex flex-col h-full">
+                    <img src="https://placehold.co/600x400/111827/06b6d4?text=Data+101+Capstone+Project" alt="NBA ML" class="w-full h-48 object-cover opacity-60">
                     <div class="p-8 flex-grow">
-                        <h3 class="text-xl font-bold text-white mb-4 tracking-tight uppercase text-xs">NBA Player Longevity Model</h3>
-                        <p class="text-gray-400 mb-6 text-xs leading-relaxed flex-grow">Built a GBC model with 91.45% accuracy to predict NBA career lengths using historical metrics.</p>
-                        <a href="https://drive.google.com/file/d/1JnqO3-2Co7cYagNiwbpRnCDXvEUXnrwX/view?usp=drive_link" target="_blank" class="text-cyan-400 text-[10px] font-black uppercase tracking-widest">Paper &rarr;</a>
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-sm font-bold text-white tracking-widest uppercase mb-4">NBA Longevity Predictor</h3>
+                            <span class="text-[7px] font-black bg-cyan-600 text-white px-2 py-1 rounded tracking-tighter uppercase">DATA 101 CAPSTONE PROJECT</span>
+                        </div>
+                        <p class="text-gray-400 mb-6 text-xs leading-relaxed flex-grow font-light">GBC model to predict NBA career lengths with 91.45% accuracy.</p>
+                        <a href="https://drive.google.com/file/d/1JnqO3-2Co7cYagNiwbpRnCDXvEUXnrwX/view?usp=drive_link" target="_blank" class="text-cyan-400 text-[10px] font-black uppercase tracking-widest">Full Paper &rarr;</a>
                     </div>
                 </div>
-
-                <!-- Animatronic Santa -->
-                <div class="project-card bg-gray-900 border border-white/5 rounded-2xl overflow-hidden h-full flex flex-col">
-                    <div class="video-responsive">
-                        <iframe src="https://www.youtube.com/embed/FC8r0VPXaig" title="Animatronic Santa" frameborder="0" allowfullscreen></iframe>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-sm font-bold text-white tracking-widest uppercase">Animatronic Santa</h3>
-                        <p class="text-[10px] text-gray-500 mt-2 tracking-widest uppercase font-black">Arduino & Cardboard Engineering</p>
-                    </div>
+                <div class="project-card border rounded-2xl overflow-hidden p-8 flex flex-col h-full border-blue-900/20">
+                    <h3 class="text-sm font-bold text-white tracking-widest uppercase mb-4">Fetchr</h3>
+                    <p class="text-gray-400 mb-8 text-xs leading-relaxed flex-grow font-light">Pet safety monitoring utilizing AI alerts and integrated sensor hardware.</p>
+                    <a href="https://devpost.com/software/fetchr-rja9kh" target="_blank" class="text-cyan-400 text-[10px] font-black uppercase tracking-widest">Details &rarr;</a>
                 </div>
-
-                <!-- GUMDROP -->
-                <div class="project-card bg-gray-900 border border-white/5 rounded-2xl overflow-hidden p-8 flex flex-col h-full">
-                    <div class="flex justify-between items-start mb-4">
-                        <h3 class="text-xl font-bold text-white tracking-tight uppercase tracking-tighter text-xs">GUMDROP</h3>
-                        <span class="text-[8px] font-black bg-purple-500 text-white px-2 py-1 rounded tracking-tighter uppercase">WINNER</span>
-                    </div>
-                    <p class="text-gray-400 mb-8 text-xs leading-relaxed flex-grow">Smart vending solution for optimizing medical prescription distribution.</p>
-                    <a href="https://devpost.com/software/gumdrop" target="_blank" class="text-cyan-400 text-[10px] font-black uppercase tracking-widest">Case Study &rarr;</a>
+                <div class="project-card border rounded-2xl overflow-hidden h-full flex flex-col border-white/5">
+                    <div class="video-responsive"><iframe src="https://www.youtube.com/embed/FC8r0VPXaig" frameborder="0" allowfullscreen></iframe></div>
+                    <div class="p-6 text-center"><h3 class="text-[10px] font-black text-white tracking-widest uppercase">Animatronic Santa Display</h3></div>
                 </div>
-
-                <!-- CerebrAI -->
-                <div class="project-card bg-gray-900 border border-white/5 rounded-2xl overflow-hidden p-8 flex flex-col h-full">
-                    <div class="flex justify-between items-start mb-4">
-                        <h3 class="text-xl font-bold text-white tracking-tight text-xs uppercase">CerebrAI</h3>
-                        <span class="text-[8px] font-black bg-cyan-400 text-black px-2 py-1 rounded tracking-tighter uppercase">WINNER</span>
-                    </div>
-                    <p class="text-gray-400 mb-8 text-xs leading-relaxed flex-grow">Quantum Neural Network (QNN) implementation for advanced classification.</p>
-                    <a href="https://devpost.com/software/s-0ucrb4" target="_blank" class="text-cyan-400 text-[10px] font-black uppercase tracking-widest">Code &rarr;</a>
-                </div>
-
-                <!-- Toll Booth -->
-                <div class="project-card bg-gray-900 border border-white/5 rounded-2xl overflow-hidden h-full flex flex-col">
+                <div class="project-card border rounded-2xl overflow-hidden h-full flex flex-col border-white/5">
                     <div class="video-responsive"><iframe src="https://www.youtube.com/embed/ilsbYDccD_w" frameborder="0" allowfullscreen></iframe></div>
-                    <div class="p-6"><h3 class="text-[10px] font-black text-white tracking-widest uppercase">Automated Toll Booth</h3></div>
+                    <div class="p-6 text-center"><h3 class="text-[10px] font-black text-white tracking-widest uppercase">Automated Toll Booth</h3></div>
                 </div>
-
-                <!-- Voice Lights -->
-                <div class="project-card bg-gray-900 border border-white/5 rounded-2xl overflow-hidden h-full flex flex-col">
+                <div class="project-card border rounded-2xl overflow-hidden h-full flex flex-col border-white/5">
                     <div class="video-responsive"><iframe src="https://www.youtube.com/embed/u3wQpNjbwq4" frameborder="0" allowfullscreen></iframe></div>
-                    <div class="p-6"><h3 class="text-[10px] font-black text-white tracking-widest uppercase">Voice Controlled Lights</h3></div>
+                    <div class="p-6 text-center"><h3 class="text-[10px] font-black text-white tracking-widest uppercase">Voice Controlled Lights</h3></div>
                 </div>
-
-                <!-- Touch Buzzer -->
-                <div class="project-card bg-gray-900 border border-white/5 rounded-2xl overflow-hidden h-full flex flex-col">
+                <div class="project-card border rounded-2xl overflow-hidden h-full flex flex-col border-white/5">
                     <div class="video-responsive"><iframe src="https://www.youtube.com/embed/rO0PJKwz7WY" frameborder="0" allowfullscreen></iframe></div>
-                    <div class="p-6"><h3 class="text-[10px] font-black text-white tracking-widest uppercase">Touch Sensor Buzzer</h3></div>
+                    <div class="p-6 text-center"><h3 class="text-[10px] font-black text-white tracking-widest uppercase">Touch Sensor Buzzer</h3></div>
                 </div>
-
-                <!-- Temp Humidity -->
-                <div class="project-card bg-gray-900 border border-white/5 rounded-2xl overflow-hidden h-full flex flex-col">
+                <div class="project-card border rounded-2xl overflow-hidden h-full flex flex-col border-white/5">
                     <div class="video-responsive"><iframe src="https://www.youtube.com/embed/WbZ_fRxHkBY" frameborder="0" allowfullscreen></iframe></div>
-                    <div class="p-6"><h3 class="text-[10px] font-black text-white tracking-widest uppercase">Temp/Humidity Fusion</h3></div>
+                    <div class="p-6 text-center"><h3 class="text-[10px] font-black text-white tracking-widest uppercase">Temp & Humidity System</h3></div>
                 </div>
-
-                <!-- Fetchr -->
-                <div class="project-card bg-gray-900 border border-white/5 rounded-2xl overflow-hidden p-8 flex flex-col h-full border-blue-900/20">
-                    <h3 class="text-xl font-bold text-white tracking-tight uppercase tracking-widest text-xs mb-4">Fetchr</h3>
-                    <p class="text-gray-400 mb-8 text-xs leading-relaxed flex-grow">Pet safety monitoring utilizes AI alerts and integrated sensor hardware.</p>
-                    <a href="https://devpost.com/software/fetchr-rja9kh" target="_blank" class="text-cyan-400 text-[10px] font-black uppercase tracking-widest">Case Study &rarr;</a>
+                <div class="project-card border rounded-2xl overflow-hidden h-full flex flex-col border-white/5">
+                    <div class="video-responsive"><iframe src="https://www.youtube.com/embed/_P6hI0XtBJU" frameborder="0" allowfullscreen></iframe></div>
+                    <div class="p-6 text-center"><h3 class="text-[10px] font-black text-white tracking-widest uppercase">HarvestHacks Winner</h3></div>
                 </div>
-
-                <!-- HarvestHacks -->
-                <div class="project-card bg-gray-900 border border-white/5 rounded-2xl overflow-hidden h-full flex flex-col">
-                    <div class="video-responsive">
-                        <iframe src="https://www.youtube.com/embed/_P6hI0XtBJU" frameborder="0" allowfullscreen></iframe>
-                    </div>
-                    <div class="p-6"><h3 class="text-[10px] font-black text-white tracking-widest uppercase">HarvestHacks (Blockchain)</h3></div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Technical Stack Cluster -->
-        <section id="skills" class="mb-40">
-            <h2 class="text-3xl font-black text-white mb-16 tracking-tighter uppercase border-l-4 border-gray-600 pl-6">Core Capabilities</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div class="bg-white/5 p-8 rounded-2xl border border-white/10">
-                    <h3 class="text-cyan-400 font-bold mb-6 uppercase text-[10px] tracking-widest">Intelligence</h3>
-                    <div class="space-y-3 text-sm text-gray-400 font-medium">
-                        <p>TensorFlow / PyTorch</p>
-                        <p>Scikit-learn / XGBoost</p>
-                        <p>OpenCV (Vision)</p>
-                        <p>Plotly / NumPy</p>
-                    </div>
-                </div>
-                <div class="bg-white/5 p-8 rounded-2xl border border-white/10">
-                    <h3 class="text-cyan-400 font-bold mb-6 uppercase text-[10px] tracking-widest">Engineering</h3>
-                    <div class="space-y-3 text-sm text-gray-400 font-medium">
-                        <p>Python</p><p>C / C++</p><p>Swift / SwiftUI</p><p>Java / SQL</p>
-                    </div>
-                </div>
-                <div class="bg-white/5 p-8 rounded-2xl border border-white/10">
-                    <h3 class="text-cyan-400 font-bold mb-6 uppercase text-[10px] tracking-widest">Silicon</h3>
-                    <div class="space-y-3 text-sm text-gray-400 font-medium">
-                        <p>ASIC / FPGA Design</p>
-                        <p>Arduino / ESP32</p>
-                        <p>I2C / SPI / BLE</p>
-                        <p>Soldering / CAD</p>
-                    </div>
-                </div>
-                <div class="bg-white/5 p-8 rounded-2xl border border-white/10">
-                    <h3 class="text-cyan-400 font-bold mb-6 uppercase text-[10px] tracking-widest">Ecosystem</h3>
-                    <div class="space-y-3 text-sm text-gray-400 font-medium">
-                        <p>Git / Docker</p><p>Firebase / AWS</p><p>Gurobi Optimizer</p><p>Linux / GDB</p>
+                <div class="project-card border rounded-2xl overflow-hidden flex flex-col h-full border-green-900/20">
+                    <div class="h-44 bg-green-950/20 flex items-center justify-center border-b border-white/5"><span class="text-green-500 font-black text-xs tracking-widest uppercase">NYU Tisch Game Lab</span></div>
+                    <div class="p-8 flex-grow">
+                        <h3 class="text-sm font-bold text-white tracking-widest uppercase mb-4">Dead Dino Diffuse</h3>
+                        <p class="text-gray-400 mb-6 text-xs leading-relaxed flex-grow font-light">Diffusion game programmed in GML. Custom physics and animations.</p>
+                        <a href="https://nyugc.itch.io/deaddinodiffuse" target="_blank" class="text-green-400 text-[10px] font-black uppercase tracking-widest">Play &rarr;</a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Contact Section -->
-        <section id="contact" class="text-center py-32 bg-white/5 rounded-3xl border border-white/5 shadow-2xl relative overflow-hidden">
-            <div class="absolute inset-0 bg-gradient-to-tr from-cyan-500/5 to-purple-500/5 opacity-50"></div>
+        <!-- Dynamic Connect Section -->
+        <section id="contact" class="text-center py-32 rounded-3xl border border-white/5 shadow-2xl relative overflow-hidden standard-bg">
+            <div class="absolute inset-0 z-0 bg-black/50"></div>
             <h2 class="text-4xl font-black text-white mb-6 uppercase tracking-tighter relative z-10">Connect</h2>
-            <p class="text-lg text-gray-400 mb-12 max-w-lg mx-auto relative z-10 leading-relaxed font-medium">
-                Seeking Summer 2026 Engineering roles. Open to discussing robotics, ML, or technical advisory.
-            </p>
-            <a href="mailto:ved.borade@rutgers.edu"
-               class="inline-block bg-white text-black font-black text-xs uppercase tracking-[0.2em] px-14 py-5 rounded-2xl shadow-xl hover:bg-cyan-500 hover:text-white transition-all transform hover:scale-105 relative z-10">
-                Send Transmission
-            </a>
+            
+            <div class="flex items-center justify-center gap-4 mb-16 relative z-10">
+                <span class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500">Standard</span>
+                <label class="switch">
+                    <input type="checkbox" id="mode-toggle" onchange="toggleFunMode()">
+                    <span class="slider"></span>
+                </label>
+                <span class="text-[10px] font-black uppercase tracking-[0.2em] text-cyan-400">Launch Challenge Mode</span>
+            </div>
+
+            <div id="standard-contact" class="flex justify-center gap-12 max-w-4xl mx-auto relative z-10 px-4">
+                <a href="mailto:vedmborade@gmail.com" class="group flex flex-col items-center gap-4">
+                    <div class="w-16 h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-cyan-500/20 group-hover:border-cyan-500 duration-300">
+                        <svg viewBox="0 0 24 24" class="w-6 h-6 fill-gray-400 group-hover:fill-cyan-400"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                    </div>
+                    <span class="text-[10px] font-black uppercase tracking-widest text-gray-500 group-hover:text-white">Email</span>
+                </a>
+                <a href="https://www.linkedin.com/in/vedb" target="_blank" class="group flex flex-col items-center gap-4">
+                    <div class="w-16 h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-blue-500/20 group-hover:border-blue-500 duration-300">
+                        <svg viewBox="0 0 24 24" class="w-6 h-6 fill-gray-400 group-hover:fill-blue-400"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                    </div>
+                    <span class="text-[10px] font-black uppercase tracking-widest text-gray-500 group-hover:text-white">LinkedIn</span>
+                </a>
+                <a href="https://github.com/vedbo" target="_blank" class="group flex flex-col items-center gap-4">
+                    <div class="w-16 h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-white/20 group-hover:border-white duration-300">
+                        <svg viewBox="0 0 24 24" class="w-6 h-6 fill-gray-400 group-hover:fill-white"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                    </div>
+                    <span class="text-[10px] font-black uppercase tracking-widest text-gray-500 group-hover:text-white">GitHub</span>
+                </a>
+                <a href="https://devpost.com/vedmborade" target="_blank" class="group flex flex-col items-center gap-4">
+                    <div class="w-16 h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-cyan-500/20 group-hover:border-cyan-500 duration-300">
+                        <svg viewBox="0 0 24 24" class="w-6 h-6 fill-gray-400 group-hover:fill-cyan-400"><path d="M0 8.35v7.3l6.34 3.66 6.33-3.66v-7.3l-6.33-3.66-6.34 3.66zm10.74 6.45l-4.4 2.54-4.4-2.54v-5.08l4.4-2.54 4.4 2.54v5.08zM17.67 2l-6.34 3.66 2.11 1.22 4.23-2.44 4.23 2.44v9.76l-4.23 2.44-4.23-2.44-2.11 1.22 6.34 3.66 8.44-4.88v-14.64l-8.44-4.88z"/></svg>
+                    </div>
+                    <span class="text-[10px] font-black uppercase tracking-widest text-gray-500 group-hover:text-white">Devpost</span>
+                </a>
+            </div>
+            
+            <div id="game-container" class="max-w-4xl mx-auto relative z-10 shadow-2xl border border-white/10"></div>
         </section>
 
     </main>
 
-    <!-- Footer -->
     <footer class="text-center py-16 border-t border-white/5">
-        <p class="text-gray-600 text-[10px] font-bold uppercase tracking-[0.4em] mb-4">Ved Borade &copy; 2026</p>
-        <p class="text-gray-500 text-[8px] font-bold uppercase tracking-widest leading-relaxed">
-            Built with Inter & Tailwind <br> Rutgers Honors College
-        </p>
+        <p class="text-gray-600 text-[10px] font-bold uppercase tracking-[0.4em]">Ved Borade &copy; 2026</p>
     </footer>
 
     <script>
+        // --- TICKER ---
+        const tickerData = [
+            { text: "Rutgers Honors College", color: "#22d3ee" },
+            { text: "Computational Robotics Research", color: "#a855f7" },
+            { text: "NASA Technical Mentor", color: "#3b82f6" },
+            { text: "5x Hackathon Winner", color: "#22d3ee" },
+            { text: "STEM Gold Medalist", color: "#eab308" },
+            { text: "CodePath Scholar", color: "#8b5cf6" },
+            { text: "National Cyber Scholar", color: "#ef4444" },
+            { text: "AP Scholar with Distinction", color: "#eab308" }
+        ];
+
+        function initTicker() {
+            const wrapper = document.getElementById('ticker-content');
+            const items = tickerData.map(item => `
+                <div class="badge-item">
+                    <span style="background: ${item.color}"></span>
+                    ${item.text}
+                </div>
+            `).join('');
+            wrapper.innerHTML = items + items; 
+        }
+
+        // --- CATCH THE BALL LOGIC ---
+        const config = [
+            { name: "Email", url: "mailto:vedmborade@gmail.com", color: "rgba(6, 182, 212, 0.7)", shadow: "#06b6d4", svg: '<svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>' },
+            { name: "LinkedIn", url: "https://www.linkedin.com/in/vedb", color: "rgba(168, 85, 247, 0.7)", shadow: "#a855f7", svg: '<svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>' },
+            { name: "GitHub", url: "https://github.com/vedbo", color: "rgba(255, 255, 255, 0.6)", shadow: "#ffffff", svg: '<svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>' },
+            { name: "Devpost", url: "https://devpost.com/vedmborade", color: "rgba(6, 182, 212, 0.7)", shadow: "#06b6d4", svg: '<svg viewBox="0 0 24 24"><path d="M0 8.35v7.3l6.34 3.66 6.33-3.66v-7.3l-6.33-3.66-6.34 3.66zm10.74 6.45l-4.4 2.54-4.4-2.54v-5.08l4.4-2.54 4.4 2.54v5.08zM17.67 2l-6.34 3.66 2.11 1.22 4.23-2.44 4.23 2.44v9.76l-4.23 2.44-4.23-2.44-2.11 1.22 6.34 3.66 8.44-4.88v-14.64l-8.44-4.88z"/></svg>' }
+        ];
+
+        let animationActive = false;
+        let balls = [];
+
+        function toggleFunMode() {
+            const standard = document.getElementById('standard-contact');
+            const game = document.getElementById('game-container');
+            const contactSection = document.getElementById('contact');
+            const isChecked = document.getElementById('mode-toggle').checked;
+
+            if (isChecked) {
+                standard.classList.add('hidden-mode');
+                game.style.display = 'block';
+                contactSection.classList.add('fun-bg-active');
+                initGame();
+                animationActive = true;
+                requestAnimationFrame(updateLoop);
+            } else {
+                standard.classList.remove('hidden-mode');
+                game.style.display = 'none';
+                contactSection.classList.remove('fun-bg-active');
+                animationActive = false;
+            }
+        }
+
+        function initGame() {
+            const container = document.getElementById('game-container');
+            container.innerHTML = '';
+            balls = [];
+            config.forEach(item => {
+                const el = document.createElement('a');
+                el.href = item.url;
+                el.target = "_blank";
+                el.className = "bouncing-link";
+                el.innerHTML = item.svg;
+                el.style.color = item.shadow;
+                el.style.background = item.color;
+                el.style.boxShadow = `0 0 30px ${item.shadow}`;
+                container.appendChild(el);
+                balls.push({ el, x: Math.random()*(container.clientWidth-80), y: Math.random()*(container.clientHeight-80), vx: (Math.random()-0.5)*8, vy: (Math.random()-0.5)*8 });
+            });
+        }
+
+        function updateLoop() {
+            if (!animationActive) return;
+            const container = document.getElementById('game-container');
+            balls.forEach(ball => {
+                ball.x += ball.vx; ball.y += ball.vy;
+                const maxX = container.clientWidth - 80;
+                const maxY = container.clientHeight - 80;
+                if (ball.x <= 0 || ball.x >= maxX) ball.vx *= -1;
+                if (ball.y <= 0 || ball.y >= maxY) ball.vy *= -1;
+                ball.el.style.left = ball.x + 'px';
+                ball.el.style.top = ball.y + 'px';
+            });
+            requestAnimationFrame(updateLoop);
+        }
+
         function toggleArchive() {
             const archive = document.getElementById('project-archive');
-            const btn = document.getElementById('show-archive-btn');
-            const icon = document.getElementById('archive-icon');
-            const text = document.getElementById('archive-text');
+            const btnText = document.getElementById('archive-text');
+            const btnIcon = document.getElementById('archive-icon');
 
             if (archive.classList.contains('show')) {
                 archive.classList.remove('show');
-                text.innerText = 'Show All Projects';
-                icon.style.transform = 'rotate(0deg)';
-                document.getElementById('projects').scrollIntoView();
+                archive.style.display = 'none';
+                btnText.innerText = 'View Additional Projects';
+                btnIcon.style.transform = 'rotate(0deg)';
             } else {
                 archive.classList.add('show');
-                text.innerText = 'Hide Projects';
-                icon.style.transform = 'rotate(180deg)';
+                archive.style.display = 'grid';
+                btnText.innerText = 'Hide Projects';
+                btnIcon.style.transform = 'rotate(180deg)';
             }
         }
-    </script>
 
+        window.addEventListener('DOMContentLoaded', initTicker);
+    </script>
 </body>
 </html>
