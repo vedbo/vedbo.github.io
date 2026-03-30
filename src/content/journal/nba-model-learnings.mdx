@@ -1,0 +1,17 @@
+---
+title: "Why predicting NBA career length is harder than it looks"
+date: "May 2024"
+tags: ["#machine-learning", "#data-science", "#basketball"]
+---
+
+For my Data Science capstone, my team tried to predict how long an NBA player's career would last using their rookie-year stats. It seemed straightforward. It wasn't.
+
+Our first model was overconfident and wrong. We'd fed it points, rebounds, assists — the obvious stuff — and it kept predicting long careers for high-scorers regardless of anything else. Shaquille O'Neal's rookie stats would've gotten a 20-year projection. That's not a model, that's a fan.
+
+The fix came from actually thinking about *why* careers end. Injuries. Inefficiency at scale. Reduced role as the league evolves around you. Once we reframed the question — not "how good is this player?" but "how durable and adaptable is this player?" — the features changed completely.
+
+**True Shooting %** beat raw PPG. **Games played per season** (an injury-history proxy) was one of our strongest signals. **Usage rate balance** — whether a player could produce without dominating the ball — predicted longevity better than almost anything.
+
+We used a Random Forest Regressor and got the MSE down to a number we were happy with. But what actually took 80% of our time was data cleaning — specifically, normalizing across eras. A 15 PPG season in 1994 is a completely different thing than 15 PPG in 2024. Pace, three-point volume, defensive rules — the game changed. The data didn't know that until we told it.
+
+**The real lesson:** the model doesn't know what it doesn't know. Your job as the engineer is to encode the context that doesn't show up in a CSV.

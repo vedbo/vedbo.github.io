@@ -1,0 +1,23 @@
+---
+title: "We placed 3rd at PennApps by throwing out our model at 2 AM"
+date: "September 2024"
+tags: ["#hackathon", "#pennapps", "#ai", "#surgevue"]
+---
+
+PennApps is one of the oldest collegiate hackathons in the country, run out of UPenn. Walking in knowing that matters — the talent density in that room is real, and you feel it fast.
+
+At 2 AM, four hours before our demo, I told my team we needed to scrap the core of what we'd built.
+
+**SurgeVue AI** was a real-time computer vision assistant for surgical teams — analyzing live procedure footage and flagging deviations from protocol. The model worked in controlled testing. The problem was our test dataset was clean, consistent footage. The moment we pointed it at anything resembling a real OR environment — different lighting, unpredictable camera angles, background noise — segmentation fell apart. We were getting false positives on shadows.
+
+The "right" fix was to retrain with more diverse data. We had four hours.
+
+So we did something that felt like cheating at the time: we wrote a custom pre-filtering heuristic to normalize frames before they hit the model. Not elegant. Basically hand-tuned image processing rules that cleaned up the input. The kind of thing you'd never ship to production. But it worked.
+
+Demo went perfectly. We placed 3rd.
+
+At PennApps, that means something. You're not finishing 3rd at a school-run event — you're finishing 3rd against some of the most technically sharp student builders in the country. We didn't win, but we walked out knowing we'd built something real under real pressure.
+
+The lesson that stuck: there's a version of engineering where you do things the correct way, and a version where you solve the problem in front of you. The best engineers know which one the moment calls for — and aren't too proud to write a hacky heuristic at 2 AM if that's what ships.
+
+The heuristic got us 3rd at PennApps. The mindset stuck.
