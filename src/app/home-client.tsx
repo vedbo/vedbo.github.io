@@ -102,6 +102,16 @@ const timelineData = [
 
 const allProjects = [
   {
+    title: "Amazon Rekognition Audit",
+    badge: "DATA IN CONTEXT",
+    badgeColor: "bg-purple-500 text-white",
+    pills: ["Python", "AWS Rekognition", "Pandas"],
+    pillColor: "bg-purple-500/10 text-purple-400",
+    description: "Audited age and gender predictions on 1,000 FairFace images using a Python pipeline and custom scoring rubric. Compared results across demographic groups; the report found gender-label disagreement rates of 10.4% for Black faces and 2.9% for Southeast Asian faces in this sample.",
+    links: [{ text: "Read Audit Report", url: "/reports/amazon-rekognition-audit.pdf" }],
+    categories: ["ai"],
+  },
+  {
     title: "Robotic Service Dog",
     badge: "GOLD MEDAL",
     badgeColor: "bg-yellow-400 text-black",
